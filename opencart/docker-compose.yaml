@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  opencart:
+    image: bitnami/opencart:latest
+    restart: always
+    depends_on:
+      - mariadb
+    volumes:  
+     - /d/docker-volumes/opencart/opencart_data:/bitnami/opencart
+    ports:
+      - 8095:8080
+    environment:
+      #  ALLOW_EMPTY_PASSWORD: yes
+      OPENCART_DATABASE_USER: bn_opencart
+      OPENCART_DATABASE_PASSWORD: bitnami
+      OPENCART_DATABASE_NAME: bitnami_opencart
+      OPENCART_HOST: localhost:8095
+      OPENCART_DATABASE_HOST: mariadb
+      # OpenCart application username. Default: user
+      OPENCART_USERNAME: allen
+      OPENCART_PASSWORD: 2660471cxq
+      OPENCART_EMAIL: lileililiwen@gmail.com
+
+  mariadb:
+    image: bitnami/mariadb
+    restart: always
+    environment:
+      MARIADB_USER: bn_opencart
+      MARIADB_PASSWORD: bitnami
+      MARIADB_DATABASE: bitnami_opencart
+      MARIADB_ROOT_PASSWORD: allen123456
+    volumes:  
+      - /d/docker-volumes/opencart/mariadb_data:/bitnami/mariadb 
+

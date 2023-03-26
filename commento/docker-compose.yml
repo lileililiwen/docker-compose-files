@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  server:
+    image: registry.gitlab.com/commento/commento:v1.8.0
+    ports:
+      - 8087:8080
+    environment:
+      COMMENTO_ORIGIN: http://localhost:8087
+      COMMENTO_PORT: 8080
+      COMMENTO_POSTGRES: postgres://redacted:redacted@db:5432/commento?sslmode=disable
+    depends_on:
+      - db
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: commento
+      POSTGRES_USER: redacted
+      POSTGRES_PASSWORD: redacted
+    volumes:
+      - /d/docker-volumes/commento/postgres:/var/lib/postgresql/data

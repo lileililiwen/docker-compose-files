@@ -1,0 +1,28 @@
+version: "3.4"
+
+services:
+  app:
+    image: monica
+    depends_on:
+      - db
+    ports:
+      - 8084:80
+    environment:
+      - APP_KEY='base64:ws7uIn3R1iwFEp9bPUzqKo3GuTZn0xG+IcZNr4GGvZc='
+      - DB_HOST=db
+      - DB_USERNAME=usermonica
+      - DB_PASSWORD=secret
+    volumes:
+      - /d/docker-volumes/monicahq/monica:/var/www/html/storage
+    restart: always
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+      - MYSQL_DATABASE=monica
+      - MYSQL_USER=usermonica
+      - MYSQL_PASSWORD=secret
+    volumes:
+      - /d/docker-volumes/monicahq/mysql:/var/lib/mysql
+    restart: always

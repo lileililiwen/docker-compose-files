@@ -1,0 +1,25 @@
+version: "3.1"
+
+services:
+  zblog:
+    image: yangxuan8282/zblog
+    restart: "always"
+    environment:
+        ZBLOG_URL: https://github.com/zblogcn/zblogphp/releases/download/v1.7.2-3030/zblogphp.zip
+        ZBLOG_VERSION: 1.7.2
+        PHP_EXTRA_CONFIGURE_ARGS: '--with-apxs2'
+    depends_on:
+      - db
+    ports:
+      - "8093:80"
+    volumes:
+      - "/d/docker-volumes/zblogphp/html:/var/www/html"
+      
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: allen123     
+    volumes:
+      - "/d/docker-volumes/zblogphp/mysql:/var/lib/mysql"  
+     

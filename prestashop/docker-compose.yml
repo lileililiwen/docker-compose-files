@@ -1,0 +1,32 @@
+version: '3.1'
+services:
+  mariadb:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_USER: bn_prestashop
+      MARIADB_DATABASE: bitnami_prestashop
+      MARIADB_ROOT_PASSWORD: allen123456
+      MARIADB_PASSWORD: allen123456
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      #- ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - /d/docker-volumes/prestashop/mariadb_data:/var/lib/mysql
+      - /d/docker-volumes/prestashop/mariadb_conf:/etc/mysql/conf.d 
+  prestashop:
+    image: btcpayserver/prestashop:1.7
+    restart: always
+    depends_on: 
+      - mariadb
+    ports:
+      - '8096:80'
+    environment:
+      ADMIN_MAIL: lileililiwen@gmail.com
+      ADMIN_PASSWD: 2660471cxq
+      DB_SERVER: mariadb
+      DB_PORT: 3306
+      DB_NAME: bitnami_prestashop
+      DB_USER: bn_prestashop
+      DB_PASSWD: allen123456
+    volumes:
+      - /d/docker-volumes/prestashop/prestashop_data:/bitnami/prestashop
